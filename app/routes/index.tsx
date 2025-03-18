@@ -41,6 +41,7 @@ function Home() {
           router.invalidate();
         });
       }}
+      className='bg-red-800 text-white'
     >
       Add 1 to {state}?
     </button>
