@@ -1,5 +1,7 @@
 // app/routes/index.tsx
 import { createFileRoute } from '@tanstack/react-router';
+import Hero from '../components/Hero';
+import SkillBox from '../components/SkillBox';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -8,35 +10,24 @@ export const Route = createFileRoute('/')({
 function Home() {
   return (
     <>
-      <div>
-        <div></div>
-        <div>
-          <span>Amazing Enyichi Agu</span>
-          <p>Just vibing || Full Stack Engineer</p>
-          <div>
-            <span>GitHub</span>
-            <span>X</span>
-            <span>LinkedIn</span>
-          </div>
+      <Hero />
+      <div className='mt-10'>
+        <h2 className='text-2xl'>Languages</h2>
+        <div className='mt-2.5 flex gap-3'>
+          <SkillBox>HTML</SkillBox>
+          <SkillBox>CSS</SkillBox>
+          <SkillBox>JavaScript</SkillBox>
+          <SkillBox>TypeScript</SkillBox>
         </div>
       </div>
-      <div>
-        <h2>Languages</h2>
-        <div>
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>JavaScript</span>
-          <span>TypeScript</span>
-        </div>
-      </div>
-      <div>
-        <h2>Tools</h2>
-        <div>
-          <span>React</span>
-          <span>GraphQL</span>
-          <span>Node.js</span>
-          <span>Socket.io</span>
-          <span>Next.js/Remix</span>
+      <div className='mt-10'>
+        <h2 className='text-2xl'>Tools</h2>
+        <div className='mt-2.5 flex gap-3'>
+          <SkillBox>React</SkillBox>
+          <SkillBox>GraphQL</SkillBox>
+          <SkillBox>Node.js</SkillBox>
+          <SkillBox>Socket.io</SkillBox>
+          <SkillBox>Next.js/Remix</SkillBox>
         </div>
       </div>
     </>
