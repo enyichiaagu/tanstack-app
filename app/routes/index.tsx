@@ -1,49 +1,44 @@
 // app/routes/index.tsx
-import * as fs from 'node:fs';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { createServerFn } from '@tanstack/react-start';
-
-const filePath = 'count.txt';
-
-async function readCount() {
-  return parseInt(
-    await fs.promises.readFile(filePath, 'utf-8').catch(() => '0')
-  );
-}
-
-const getCount = createServerFn({
-  method: 'GET',
-}).handler(() => {
-  return readCount();
-});
-
-const updateCount = createServerFn({ method: 'POST' })
-  .validator((d: number) => d)
-  .handler(async ({ data }) => {
-    const count = await readCount();
-    await fs.promises.writeFile(filePath, `${count + data}`);
-  });
+import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Home,
-  loader: async () => await getCount(),
 });
 
 function Home() {
-  const router = useRouter();
-  const state = Route.useLoaderData();
-
   return (
-    <button
-      type='button'
-      onClick={() => {
-        updateCount({ data: 1 }).then(() => {
-          router.invalidate();
-        });
-      }}
-      className='bg-red-800 text-white'
-    >
-      Add 1 to {state}?
-    </button>
+    <>
+      <div>
+        <div></div>
+        <div>
+          <span>Amazing Enyichi Agu</span>
+          <p>Just vibing || Full Stack Engineer</p>
+          <div>
+            <span>GitHub</span>
+            <span>X</span>
+            <span>LinkedIn</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>Languages</h2>
+        <div>
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>JavaScript</span>
+          <span>TypeScript</span>
+        </div>
+      </div>
+      <div>
+        <h2>Tools</h2>
+        <div>
+          <span>React</span>
+          <span>GraphQL</span>
+          <span>Node.js</span>
+          <span>Socket.io</span>
+          <span>Next.js/Remix</span>
+        </div>
+      </div>
+    </>
   );
 }
