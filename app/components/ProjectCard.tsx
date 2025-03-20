@@ -9,7 +9,6 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = (props: ProjectCardProps) => {
-  /* Make the card clickable */
   return (
     <a
       className='px-6 py-4 rounded-md bg-green-50 shadow mb-5 block'

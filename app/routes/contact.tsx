@@ -1,3 +1,5 @@
+import nodemailer from 'nodemailer';
+import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/contact')({
@@ -7,11 +9,56 @@ export const Route = createFileRoute('/contact')({
 // Send the email with a header of portfolio and body of Text, then a footer that references the email of the sender, a kind of reply
 // Check to use Re:
 
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  secure: true,
+  port: 465,
+  auth: {
+    user: import.meta.env.VITE_EMAIL_ADDRESS,
+    pass: import.meta.env.VITE_EMAIL_PASSWORD,
+  },
+});
+
+const sendEmailMessage = async ({ email, message }) => {
+  const res = await transporter.sendMail({
+    from: import.meta.env.VITE_EMAIL_ADDRESS,
+    to: import.meta.env.VITE_EMAIL_ADDRESS,
+    subject: 'Message from Portfolio',
+    text: message,
+    replyTo: email,
+  });
+  return res;
+};
+
+const submitForm = createServerFn({ method: 'POST' })
+  .validator((data: FormData) => {
+    const email = data.get('email');
+    const message = data.get('message');
+
+    if (!email || !message) {
+      throw new Error('Email and Message are required');
+    }
+
+    return { email: email.toString(), message: message.toString() };
+  })
+  .handler(async (ctx) => {
+    return sendEmailMessage(ctx.data);
+  });
+
 function Contact() {
   return (
     <>
       <p className='text-2xl'>Contact Me</p>
-      <form action='' method='post' className='mt-5'>
+      <form
+        method='post'
+        className='mt-5'
+        onSubmit={async (event: React.FormEvent<HTMLFormElement>) => {
+          event.preventDefault();
+          const formData = new FormData(event.currentTarget);
+          const response = await submitForm({ data: formData });
+          console.log(response);
+        }}
+      >
         <div className='mb-2'>
           <label htmlFor='email'>Email</label>
           <br />
