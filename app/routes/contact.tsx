@@ -8,9 +8,6 @@ export const Route = createFileRoute('/contact')({
   component: Contact,
 });
 
-// Send the email with a header of portfolio and body of Text, then a footer that references the email of the sender, a kind of reply
-// Check to use Re:
-
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   secure: true,
