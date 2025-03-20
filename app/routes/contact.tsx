@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import nodemailer from 'nodemailer';
 import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 
 export const Route = createFileRoute('/contact')({
   component: Contact,
@@ -23,7 +25,7 @@ const sendEmailMessage = async ({ email, message }) => {
   const res = await transporter.sendMail({
     from: import.meta.env.VITE_EMAIL_ADDRESS,
     to: import.meta.env.VITE_EMAIL_ADDRESS,
-    subject: 'Message from Portfolio',
+    subject: `Message from ${email}, sent from Portfolio Website`,
     text: message,
     replyTo: email,
   });
@@ -42,21 +44,30 @@ const submitForm = createServerFn({ method: 'POST' })
     return { email: email.toString(), message: message.toString() };
   })
   .handler(async (ctx) => {
-    return sendEmailMessage(ctx.data);
+    return await sendEmailMessage(ctx.data);
   });
 
 function Contact() {
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+
   return (
     <>
       <p className='text-2xl'>Contact Me</p>
+      {isSuccess && (
+        <div className='bg-green-50 text-green-900 px-6 py-3 rounded w-md mt-5'>
+          <FaCheck className='inline' /> Mail Sent Successfully
+        </div>
+      )}
       <form
         method='post'
         className='mt-5'
         onSubmit={async (event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const response = await submitForm({ data: formData });
-          console.log(response);
+          const form: HTMLFormElement = event.currentTarget;
+          const formData = new FormData(form);
+          await submitForm({ data: formData });
+          setIsSuccess(true);
+          return form.reset();
         }}
       >
         <div className='mb-2'>
@@ -66,6 +77,7 @@ function Contact() {
             type='email'
             name='email'
             id='email'
+            required
             className='border border-gray-400 w-md px-3 py-1.5'
           />
         </div>
@@ -76,6 +88,7 @@ function Contact() {
             name='message'
             id='message'
             placeholder='Write me a message'
+            required
             className='border border-gray-400 w-md px-3 py-1.5 h-50'
           ></textarea>
         </div>
