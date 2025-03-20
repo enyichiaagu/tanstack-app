@@ -1,34 +1,57 @@
+import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
-import { FaCodeFork, FaRegStar } from 'react-icons/fa6';
+import ProjectCard from '../components/ProjectCard';
+
+interface Projects {
+  full_name: string;
+  html_url: string;
+  language: string;
+  stargazers_count: number;
+  forks: number;
+}
+
+const getProjects = createServerFn({
+  method: 'GET',
+}).handler(async () => {
+  const res = await fetch(
+    'https://api.github.com/users/enyichiaagu/repos?sort=updated&per_page=5',
+    {
+      headers: {
+        'X-GitHub-Api-Version': '2022-11-28',
+        accept: 'application/vnd.github+json',
+      },
+    }
+  );
+  return res.json();
+});
 
 export const Route = createFileRoute('/projects')({
   component: Projects,
+  loader: () => getProjects(),
 });
 
 function Projects() {
+  const projects: Projects[] = Route.useLoaderData();
+
   return (
     <>
       <h2 className='text-2xl'>Projects</h2>
       <div className='mt-2.5'>
-        {/* Make the card clickable */}
-        <div className='px-6 py-4 rounded-md bg-green-50 shadow'>
-          <div className='flex justify-between mb-2'>
-            <span>repository-name</span>
-            <div className='flex gap-3'>
-              <span>
-                0 <FaRegStar className='inline' />
-              </span>
-              <span>
-                0 <FaCodeFork className='inline' />
-              </span>
-            </div>
-          </div>
-          <div>
-            <span className='text-sm bg-blue-800 text-gray-50 px-1 py-0.5'>
-              PHP
-            </span>
-          </div>
-        </div>
+        {projects.map(
+          (
+            { full_name, html_url, language, stargazers_count, forks },
+            index
+          ) => (
+            <ProjectCard
+              projectName={full_name}
+              url={html_url}
+              language={language}
+              stars={stargazers_count}
+              forks={forks}
+              key={index}
+            />
+          )
+        )}
       </div>
     </>
   );
