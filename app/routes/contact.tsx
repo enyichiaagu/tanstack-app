@@ -2,7 +2,7 @@ import { useState } from 'react';
 import nodemailer from 'nodemailer';
 import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 
 export const Route = createFileRoute('/contact')({
   component: Contact,
@@ -52,7 +52,7 @@ function Contact() {
       <p className='text-2xl'>Contact Me</p>
       {isSuccess && (
         <div className='bg-green-50 text-green-900 px-6 py-3 rounded w-md mt-5'>
-          <FaCheck className='inline' /> Mail Sent Successfully
+          <FaCheck className='inline' /> Email Sent Successfully
         </div>
       )}
       <form

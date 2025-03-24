@@ -14,9 +14,15 @@ const Hero = () => {
         <span className='text-3xl mb-3 block'>Amazing Enyichi Agu</span>
         <p className='mb-5'>generic and easily forgettable developer bio</p>
         <div className='text-2xl flex gap-3'>
-          <FaGithub />
-          <FaXTwitter />
-          <FaLinkedinIn />
+          <a href='#'>
+            <FaGithub />
+          </a>
+          <a href='#'>
+            <FaXTwitter />
+          </a>
+          <a href='#'>
+            <FaLinkedinIn />
+          </a>
         </div>
       </div>
     </div>
