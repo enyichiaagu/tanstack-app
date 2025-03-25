@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
 import ProjectCard from '../components/ProjectCard';
 
-interface Projects {
+interface Project {
   full_name: string;
   html_url: string;
   language: string;
@@ -31,7 +31,7 @@ export const Route = createFileRoute('/projects')({
 });
 
 function Projects() {
-  const projects: Projects[] = Route.useLoaderData();
+  const projects: Project[] = Route.useLoaderData();
 
   return (
     <>

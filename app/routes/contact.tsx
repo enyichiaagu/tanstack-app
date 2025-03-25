@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import nodemailer from 'nodemailer';
 import { createServerFn } from '@tanstack/react-start';
 import { createFileRoute } from '@tanstack/react-router';
+import nodemailer from 'nodemailer';
 import { FaCheck } from 'react-icons/fa';
 
 export const Route = createFileRoute('/contact')({
