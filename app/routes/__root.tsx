@@ -25,7 +25,7 @@ function RootComponent() {
   return (
     <RootDocument>
       <Header />
-      <main className='max-w-4xl mx-auto pt-10'>
+      <main className='max-w-4xl mx-auto pt-10 px-5'>
         <Outlet />
       </main>
     </RootDocument>

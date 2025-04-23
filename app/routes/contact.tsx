@@ -13,15 +13,15 @@ const transporter = nodemailer.createTransport({
   secure: true,
   port: 465,
   auth: {
-    user: import.meta.env.VITE_EMAIL_ADDRESS,
-    pass: import.meta.env.VITE_EMAIL_PASSWORD,
+    user: process.env.EMAIL_ADDRESS,
+    pass: process.env.EMAIL_PASSWORD,
   },
 });
 
 const sendEmailMessage = async ({ email, message }) => {
   const res = await transporter.sendMail({
-    from: import.meta.env.VITE_EMAIL_ADDRESS,
-    to: import.meta.env.VITE_EMAIL_ADDRESS,
+    from: process.env.EMAIL_ADDRESS,
+    to: process.env.EMAIL_ADDRESS,
     subject: `Message from ${email}, sent from Portfolio Website`,
     text: message,
     replyTo: email,
